@@ -1,4 +1,4 @@
-# Ops Copilot
+# AIOps Agent
 
 面向企业知识问答和智能运维排障的 FastAPI 应用。项目集成 RAG 知识库、Milvus 向量检索、LangChain/LangGraph Agent、MCP 工具调用和一个轻量 Web 聊天界面。
 
@@ -85,73 +85,3 @@ Windows 用户也可以使用：
 .\start-windows.bat
 .\stop-windows.bat
 ```
-
-## 配置
-
-常用环境变量：
-
-| 变量 | 默认值 | 说明 |
-| --- | --- | --- |
-| `DASHSCOPE_API_KEY` | 空 | DashScope API Key |
-| `DASHSCOPE_MODEL` | `qwen-max` | 对话模型 |
-| `MILVUS_HOST` / `MILVUS_PORT` | `localhost` / `19530` | Milvus 连接信息 |
-| `CORS_ALLOWED_ORIGINS` | `http://localhost:9900,http://127.0.0.1:9900` | CORS 来源白名单 |
-| `UPLOAD_ALLOWED_EXTENSIONS` | `txt,md,markdown` | 上传文件扩展名白名单 |
-| `UPLOAD_MAX_FILE_SIZE` | `10485760` | 单文件上传大小限制 |
-| `UPLOAD_DIR` | `uploads` | 上传文件目录 |
-
-完整配置见 [.env.example](.env.example)。
-
-## API 示例
-
-普通对话：
-
-```bash
-curl -X POST "http://localhost:9900/api/chat" \
-  -H "Content-Type: application/json" \
-  -d '{"Id":"session-123","Question":"什么是向量数据库？"}'
-```
-
-流式对话：
-
-```bash
-curl -X POST "http://localhost:9900/api/chat_stream" \
-  -H "Content-Type: application/json" \
-  -d '{"Id":"session-123","Question":"请总结知识库内容"}' \
-  --no-buffer
-```
-
-上传知识库文档：
-
-```bash
-curl -X POST "http://localhost:9900/api/upload" \
-  -F "file=@aiops-docs/cpu_high_usage.md"
-```
-
-AIOps 诊断：
-
-```bash
-curl -X POST "http://localhost:9900/api/aiops" \
-  -H "Content-Type: application/json" \
-  -d '{"session_id":"session-123"}' \
-  --no-buffer
-```
-
-## 开发
-
-```bash
-pytest
-ruff check .
-ruff format .
-```
-
-项目当前没有初始化 Git 仓库。公开发布前建议：
-
-- 确认授权和许可证条款。
-- 检查 `.env`、`logs/`、`uploads/`、`volumes/` 不会被提交。
-- 更新项目名、截图、部署说明和真实业务场景描述。
-- 至少运行测试、lint 和一次本地启动验证。
-
-## 许可证
-
-请根据购买协议或原始授权文件确认许可证后再发布。本仓库模板中的代码说明不构成对再分发权限的授权。
